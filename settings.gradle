@@ -1,0 +1,3 @@
+include ':autoview'
+include ':app'
+rootProject.name = "AndroidAutoView"

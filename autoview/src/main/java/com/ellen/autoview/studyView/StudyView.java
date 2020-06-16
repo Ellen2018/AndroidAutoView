@@ -1,16 +1,17 @@
-package com.ellen.autoview.StudyView;
+package com.ellen.autoview.studyView;
 
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
 
 public class StudyView extends View {
 
-    private com.ellen.autoview.StudyView.MeasureSpec measureSpec;
+    private com.ellen.autoview.studyView.MeasureSpec measureSpec;
 
-    public void setMeasureSpec(com.ellen.autoview.StudyView.MeasureSpec measureSpec) {
+    public void setMeasureSpec(com.ellen.autoview.studyView.MeasureSpec measureSpec) {
         this.measureSpec = measureSpec;
     }
 
@@ -107,6 +108,56 @@ public class StudyView extends View {
 
             measureSpec.getWidthMeasureSpec(widthMode,MeasureSpec.getSize(widthMeasureSpec));
             measureSpec.getHeightMeasureSpec(heightMode,MeasureSpec.getSize(heightMeasureSpec));
+
+            //忽略以上代码
+
+            //获取LayoutParams
+            ViewGroup.LayoutParams layoutParams = getLayoutParams();
+            int width = layoutParams.width;
+            int height = layoutParams.height;
+
+            //最终的宽高记录
+            int lastWidth = 0;
+            int lastHeight = 0;
+
+            //这里的逻辑写的过于啰嗦，但是对于初学者而言逻辑易于理解
+            int fatherWidth = MeasureSpec.getSize(widthMeasureSpec);
+            if(width == ViewGroup.LayoutParams.MATCH_PARENT){
+                //宽度为match -> 匹配父控件大小
+                if(intHeightMode == MeasureSpec.AT_MOST){
+                    lastWidth = fatherWidth;
+                }else if(intHeightMode == MeasureSpec.EXACTLY){
+                    lastWidth = fatherWidth;
+                }else {
+                   lastWidth = fatherWidth;
+                }
+            }else if(width == ViewGroup.LayoutParams.WRAP_CONTENT){
+                //宽度为warp -> 内容最小宽度
+                //这里需要确定View自身的内容宽度->比如文本大小的宽度等
+                //这里的逻辑笔者就不写了
+            }else {
+                //宽度为具体值
+                if(intHeightMode == MeasureSpec.AT_MOST){
+                    if(width > fatherWidth){
+                        lastWidth = fatherWidth;
+                    }else {
+                        lastWidth = width;
+                    }
+                }else if(intHeightMode == MeasureSpec.EXACTLY){
+                    if(width > fatherWidth){
+                        lastWidth = fatherWidth;
+                    }else {
+                        lastWidth = width;
+                    }
+                }else {
+                    lastWidth = width;
+                }
+            }
+
+            //高度与宽度的计算逻辑一样
+
+            //最终调用setMeasuredDimension确定宽高
+            setMeasuredDimension(lastWidth,lastHeight);
         }
     }
 }

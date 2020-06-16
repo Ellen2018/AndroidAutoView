@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     tools:context=".MainActivity">
 
-    <com.ellen.autoview.StudyView.StudyView
+    <com.ellen.autoview.studyView.StudyView
         android:id="@+id/study_view"
         android:layout_width="300dp"
         android:layout_height="300dp" />

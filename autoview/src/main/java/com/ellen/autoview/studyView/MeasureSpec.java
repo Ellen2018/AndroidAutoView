@@ -1,6 +1,4 @@
-package com.ellen.autoview.StudyView;
-
-import android.view.ViewGroup;
+package com.ellen.autoview.studyView;
 
 public interface MeasureSpec {
     void getWidthMeasureSpec(SpecMode widthMode,int width);

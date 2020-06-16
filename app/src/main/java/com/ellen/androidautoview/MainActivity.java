@@ -2,21 +2,13 @@ package com.ellen.androidautoview;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
-import com.ellen.autoview.StudyView.MeasureSpec;
-import com.ellen.autoview.StudyView.SpecMode;
-import com.ellen.autoview.StudyView.StudyView;
-import com.ellen.autoview.autolistview.AutoAdapter;
-import com.ellen.autoview.autolistview.AutoListView;
+import com.ellen.autoview.studyView.MeasureSpec;
+import com.ellen.autoview.studyView.SpecMode;
+import com.ellen.autoview.studyView.StudyView;
 
 public class MainActivity extends AppCompatActivity {
 

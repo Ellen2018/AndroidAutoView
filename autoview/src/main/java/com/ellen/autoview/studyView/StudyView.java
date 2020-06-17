@@ -110,53 +110,39 @@ public class StudyView extends View {
      */
     private int getLastSize(boolean isWidth,int mode,int fatherSize,int xmlSize){
         int lastSize = 0;
-        if(mode == MeasureSpec.AT_MOST){
-            if(xmlSize == ViewGroup.LayoutParams.MATCH_PARENT){
-                lastSize = fatherSize;
-            }else if(xmlSize == ViewGroup.LayoutParams.WRAP_CONTENT){
-                //这里需要测量StudyView自身的大小，然后确定最终的lastSize
-                int wrapSize = 100;//加入经过内容测量计算出内容size为100
-                if(wrapSize > fatherSize){
+        switch (mode){
+            case MeasureSpec.AT_MOST:
+            case MeasureSpec.EXACTLY:
+                if(xmlSize == ViewGroup.LayoutParams.MATCH_PARENT){
                     lastSize = fatherSize;
+                }else if(xmlSize == ViewGroup.LayoutParams.WRAP_CONTENT){
+                    //这里需要测量StudyView自身的大小，然后确定最终的lastSize
+                    int wrapSize = 100;//加入经过内容测量计算出内容size为100
+                    if(wrapSize > fatherSize){
+                        lastSize = fatherSize;
+                    }else {
+                        lastSize = wrapSize;
+                    }
                 }else {
-                    lastSize = wrapSize;
+                    if(fatherSize < xmlSize){
+                        lastSize = fatherSize;
+                    }else {
+                        lastSize = xmlSize;
+                    }
                 }
-            }else {
-                if(fatherSize < xmlSize){
-                    lastSize = fatherSize;
+                break;
+            case MeasureSpec.UNSPECIFIED:
+                //父亲测量模式为 MeasureSpec.UNSPECIFIED,fatherSize = 0
+                if(xmlSize == ViewGroup.LayoutParams.MATCH_PARENT){
+                    //这个地方，由于父View给的size = 0,我这里直接设置为200
+                    lastSize = 200;
+                }else if(xmlSize == ViewGroup.LayoutParams.WRAP_CONTENT){
+                    int wrapSize = 500;//加入经过内容测量计算出内容size为500
+                    lastSize = wrapSize;
                 }else {
                     lastSize = xmlSize;
                 }
-            }
-        }else if(mode == MeasureSpec.EXACTLY){
-            if(xmlSize == ViewGroup.LayoutParams.MATCH_PARENT){
-              lastSize = fatherSize;
-            }else if(xmlSize == ViewGroup.LayoutParams.WRAP_CONTENT){
-                //这里需要测量StudyView自身的大小，然后确定最终的lastSize
-                int wrapSize = 100;//加入经过内容测量计算出内容size为100
-                if(wrapSize > fatherSize){
-                    lastSize = fatherSize;
-                }else {
-                    lastSize = wrapSize;
-                }
-            }else {
-                if(fatherSize < xmlSize){
-                    lastSize = fatherSize;
-                }else {
-                    lastSize = xmlSize;
-                }
-            }
-        }else {
-            //父亲测量模式为 MeasureSpec.UNSPECIFIED,fatherSize = 0
-            if(xmlSize == ViewGroup.LayoutParams.MATCH_PARENT){
-                //这个地方，由于父View给的size = 0,我这里直接设置为200
-                lastSize = 200;
-            }else if(xmlSize == ViewGroup.LayoutParams.WRAP_CONTENT){
-                int wrapSize = 500;//加入经过内容测量计算出内容size为500
-                lastSize = wrapSize;
-            }else {
-                lastSize = xmlSize;
-            }
+                break;
         }
         return lastSize;
     }

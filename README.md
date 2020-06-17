@@ -2,8 +2,8 @@
 
 **理论掌握**
 
-> - UI绘制流程
-> - 事件分发机制
+> - [UI绘制流程](https://www.jianshu.com/p/5a71014e7b1b)
+> - [事件分发机制](https://www.jianshu.com/p/e99b5e8bd67b)
 > - Android 动画机制
 > - Android坐标体系
 > - Margin和Padding

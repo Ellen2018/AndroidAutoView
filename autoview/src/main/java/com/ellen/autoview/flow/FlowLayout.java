@@ -2,7 +2,6 @@ package com.ellen.autoview.flow;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -87,6 +86,7 @@ public class FlowLayout extends ViewGroup {
             //子View测量自己
             int childWidthMeasureSpec = MeasureSpec.makeMeasureSpec(lastWidth,MeasureSpec.AT_MOST);
             int childHeightMeasureSpec = MeasureSpec.makeMeasureSpec(fatherHeight,MeasureSpec.AT_MOST);
+            //measureChild为测量子View
             measureChild(childView, childWidthMeasureSpec, childHeightMeasureSpec);
 
             MarginLayoutParams marginLayoutParams = (MarginLayoutParams) childView.getLayoutParams();
@@ -157,7 +157,6 @@ public class FlowLayout extends ViewGroup {
         int curLeft = 0;
         //开始迭代
         int lineCount = heightLineList.size();
-        Log.e("Ellen2018","总共的行数:"+lineCount);
         for(int i = 0 ; i < lineCount ; i++) {
             List<View> viewList = viewLineList.get(i);
             int lineViewSize = viewList.size();
@@ -181,4 +180,5 @@ public class FlowLayout extends ViewGroup {
         viewLineList.clear();
         heightLineList.clear();
     }
+
 }

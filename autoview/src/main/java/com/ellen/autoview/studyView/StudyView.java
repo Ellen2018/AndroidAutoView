@@ -9,16 +9,10 @@ import androidx.annotation.Nullable;
 
 public class StudyView extends View {
 
-    private com.ellen.autoview.studyView.MeasureSpec measureSpec;
-
-    public void setMeasureSpec(com.ellen.autoview.studyView.MeasureSpec measureSpec) {
-        this.measureSpec = measureSpec;
-    }
-
     /**
      * 在代码中直接使用调用此构造方法
      * example:
-     *
+     * <p>
      * Study study = new Study();
      *
      * @param context
@@ -29,8 +23,9 @@ public class StudyView extends View {
 
     /**
      * 在布局文件中声明时调用此构造方法(不带style)
+     *
      * @param context
-     * @param attrs 自定义属性
+     * @param attrs   自定义属性
      */
     public StudyView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -38,8 +33,9 @@ public class StudyView extends View {
 
     /**
      * 在布局文件中声明时调用此构造方法(带style)
+     *
      * @param context
-     * @param attrs 自定义属性
+     * @param attrs        自定义属性
      * @param defStyleAttr style id
      */
     public StudyView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
@@ -74,90 +70,95 @@ public class StudyView extends View {
      * 其实测量过程就是结合父View的MeasureSpec
      * 加上自身的LayoutParams计算出具体的宽高，最终调用
      * setMeasuredDimension设置最终的宽高
-     * 
+     *
      * ---------------------------------
      *
-     * @param widthMeasureSpec 父View的widthMeasureSpec
+     * @param widthMeasureSpec  父View的widthMeasureSpec
      * @param heightMeasureSpec 父View的heightMeasureSpec
      */
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        if(measureSpec != null){
-            //获取父View传递过来的测量模式
 
-            int intWidthMode = MeasureSpec.getMode(widthMeasureSpec);
-            SpecMode widthMode = null;
-            if(intWidthMode == MeasureSpec.AT_MOST){
-                widthMode = SpecMode.AT_MOST;
-            }else if(intWidthMode == MeasureSpec.EXACTLY){
-                widthMode = SpecMode.EXACTLY;
-            }else {
-                widthMode = SpecMode.UNSPECIFIED;
-            }
+        super.onMeasure(widthMeasureSpec,heightMeasureSpec);
 
-            int intHeightMode = MeasureSpec.getMode(heightMeasureSpec);
-            SpecMode heightMode = null;
-            if(intHeightMode == MeasureSpec.AT_MOST){
-                heightMode = SpecMode.AT_MOST;
-            }else if(intHeightMode == MeasureSpec.EXACTLY){
-                heightMode = SpecMode.EXACTLY;
-            }else {
-                heightMode = SpecMode.UNSPECIFIED;
-            }
+        //获取父View传递过来的测量模式 & size
+        int intWidthMode = MeasureSpec.getMode(widthMeasureSpec);
+        int fatherWidth = MeasureSpec.getSize(widthMeasureSpec);
+        int intHeightMode = MeasureSpec.getMode(heightMeasureSpec);
+        int fatherHeight = MeasureSpec.getSize(heightMeasureSpec);
 
-            measureSpec.getWidthMeasureSpec(widthMode,MeasureSpec.getSize(widthMeasureSpec));
-            measureSpec.getHeightMeasureSpec(heightMode,MeasureSpec.getSize(heightMeasureSpec));
+        //获取LayoutParams
+        ViewGroup.LayoutParams layoutParams = getLayoutParams();
+        int width = layoutParams.width;
+        int height = layoutParams.height;
 
-            //忽略以上代码
+        //最终的宽高记录
+        int lastWidth = getLastSize(true,intWidthMode,fatherWidth,width);
+        int lastHeight = getLastSize(false,intHeightMode,fatherHeight,height);
 
-            //获取LayoutParams
-            ViewGroup.LayoutParams layoutParams = getLayoutParams();
-            int width = layoutParams.width;
-            int height = layoutParams.height;
-
-            //最终的宽高记录
-            int lastWidth = 0;
-            int lastHeight = 0;
-
-            //这里的逻辑写的过于啰嗦，但是对于初学者而言逻辑易于理解
-            int fatherWidth = MeasureSpec.getSize(widthMeasureSpec);
-            if(width == ViewGroup.LayoutParams.MATCH_PARENT){
-                //宽度为match -> 匹配父控件大小
-                if(intHeightMode == MeasureSpec.AT_MOST){
-                    lastWidth = fatherWidth;
-                }else if(intHeightMode == MeasureSpec.EXACTLY){
-                    lastWidth = fatherWidth;
-                }else {
-                   lastWidth = fatherWidth;
-                }
-            }else if(width == ViewGroup.LayoutParams.WRAP_CONTENT){
-                //宽度为warp -> 内容最小宽度
-                //这里需要确定View自身的内容宽度->比如文本大小的宽度等
-                //这里的逻辑笔者就不写了
-            }else {
-                //宽度为具体值
-                if(intHeightMode == MeasureSpec.AT_MOST){
-                    if(width > fatherWidth){
-                        lastWidth = fatherWidth;
-                    }else {
-                        lastWidth = width;
-                    }
-                }else if(intHeightMode == MeasureSpec.EXACTLY){
-                    if(width > fatherWidth){
-                        lastWidth = fatherWidth;
-                    }else {
-                        lastWidth = width;
-                    }
-                }else {
-                    lastWidth = width;
-                }
-            }
-
-            //高度与宽度的计算逻辑一样
-
-            //最终调用setMeasuredDimension确定宽高
-            setMeasuredDimension(lastWidth,lastHeight);
-        }
+        //最终调用setMeasuredDimension确定宽高
+        setMeasuredDimension(lastWidth, lastHeight);
     }
+
+    /**
+     * 这里的逻辑写的过于啰嗦，但是对于初学者而言逻辑易于理解
+     * @param isWidth 是否为宽度
+     * @param mode 父View的测量模式
+     * @param fatherSize 父亲的大小
+     * @param xmlSize 子View自身Xml中设置大小
+     * @return
+     */
+    private int getLastSize(boolean isWidth,int mode,int fatherSize,int xmlSize){
+        int lastSize = 0;
+        if(mode == MeasureSpec.AT_MOST){
+            if(xmlSize == ViewGroup.LayoutParams.MATCH_PARENT){
+                lastSize = fatherSize;
+            }else if(xmlSize == ViewGroup.LayoutParams.WRAP_CONTENT){
+                //这里需要测量StudyView自身的大小，然后确定最终的lastSize
+                int wrapSize = 100;//加入经过内容测量计算出内容size为100
+                if(wrapSize > fatherSize){
+                    lastSize = fatherSize;
+                }else {
+                    lastSize = wrapSize;
+                }
+            }else {
+                if(fatherSize < xmlSize){
+                    lastSize = fatherSize;
+                }else {
+                    lastSize = xmlSize;
+                }
+            }
+        }else if(mode == MeasureSpec.EXACTLY){
+            if(xmlSize == ViewGroup.LayoutParams.MATCH_PARENT){
+              lastSize = fatherSize;
+            }else if(xmlSize == ViewGroup.LayoutParams.WRAP_CONTENT){
+                //这里需要测量StudyView自身的大小，然后确定最终的lastSize
+                int wrapSize = 100;//加入经过内容测量计算出内容size为100
+                if(wrapSize > fatherSize){
+                    lastSize = fatherSize;
+                }else {
+                    lastSize = wrapSize;
+                }
+            }else {
+                if(fatherSize < xmlSize){
+                    lastSize = fatherSize;
+                }else {
+                    lastSize = xmlSize;
+                }
+            }
+        }else {
+            //父亲测量模式为 MeasureSpec.UNSPECIFIED,fatherSize = 0
+            if(xmlSize == ViewGroup.LayoutParams.MATCH_PARENT){
+                //这个地方，由于父View给的size = 0,我这里直接设置为200
+                lastSize = 200;
+            }else if(xmlSize == ViewGroup.LayoutParams.WRAP_CONTENT){
+                int wrapSize = 500;//加入经过内容测量计算出内容size为500
+                lastSize = wrapSize;
+            }else {
+                lastSize = xmlSize;
+            }
+        }
+        return lastSize;
+    }
+
 }

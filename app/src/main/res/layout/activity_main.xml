@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
@@ -9,6 +9,8 @@
     <com.ellen.autoview.studyView.StudyView
         android:id="@+id/study_view"
         android:layout_width="300dp"
-        android:layout_height="300dp" />
+        android:background="@color/colorAccent"
+        android:layout_height="300dp"
+        android:layout_margin="20dp" />
 
-</ScrollView>
+</RelativeLayout>

@@ -18,6 +18,8 @@ public class FlowLayout extends ViewGroup {
     private List<List<View>> viewLineList = new ArrayList<>();
     private List<Integer> heightLineList = new ArrayList<>();
 
+    private FlowAdapter flowAdapter;
+
     public FlowLayout(Context context) {
         super(context);
     }
@@ -28,6 +30,10 @@ public class FlowLayout extends ViewGroup {
 
     public FlowLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+    }
+
+    public void setFlowAdapter(FlowAdapter flowAdapter) {
+        this.flowAdapter = flowAdapter;
     }
 
     @Override

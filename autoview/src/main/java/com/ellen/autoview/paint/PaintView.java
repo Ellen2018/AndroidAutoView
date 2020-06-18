@@ -1,6 +1,7 @@
 package com.ellen.autoview.paint;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -20,4 +21,9 @@ public class PaintView extends View {
     }
 
 
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        //渲染 & 滤镜 & xfermode(2张图片合成一张图片)
+    }
 }

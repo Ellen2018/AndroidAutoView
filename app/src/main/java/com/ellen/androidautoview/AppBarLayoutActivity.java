@@ -1,9 +1,11 @@
 package com.ellen.androidautoview;
 
 import android.graphics.Color;
+import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.ellen.androidautoview.base.BaseActivity;
@@ -13,40 +15,25 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 /**
  * CoordinatorLayout玩法
  */
-public class AppBarLayoutActivity extends BaseActivity {
+public class AppBarLayoutActivity extends AppCompatActivity {
 
     private AppBarLayout appBarLayout;
     private CollapsingToolbarLayout collapsingToolbarLayout;
     private Toolbar toolbar;
 
     @Override
-    protected int setLayoutId() {
-        return R.layout.activity_app_bar_layout;
-    }
-
-    @Override
-    protected void setStatus() {
-
-    }
-
-    @Override
-    protected void initView() {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_app_bar_layout);
         collapsingToolbarLayout = findViewById(R.id.collapsingToolbarLayout);
         appBarLayout = findViewById(R.id.appbar_layout);
         toolbar = findViewById(R.id.appbar_layout_toolbar);
+        toolbar.setTitle("");
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);//添加默认的返回图标
+        getSupportActionBar().setHomeButtonEnabled(true); //设置返回键可用
         collapsingToolbarLayout.setContentScrimColor(Color.RED);
-        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-            @Override
-            public void onOffsetChanged(AppBarLayout appBarLayout, int i) {
-                if(-i>10){
-                    Log.e("Ellen2018","触发事件");
-                }
-            }
-        });
     }
 
-    @Override
-    protected void initData() {
 
-    }
 }

@@ -1,8 +1,11 @@
 package com.ellen.androidautoview;
 
-import com.ellen.androidautoview.base.BaseActivity;
+import android.view.View;
 
-public class ClockActivity extends BaseActivity {
+import com.ellen.androidautoview.base.BaseActivity;
+import com.ellen.androidautoview.base.BaseRegister;
+
+public class ClockActivity extends BaseActivity implements BaseRegister {
 
     @Override
     protected int setLayoutId() {
@@ -21,6 +24,16 @@ public class ClockActivity extends BaseActivity {
 
     @Override
     protected void initData() {
+
+    }
+
+    @Override
+    public void register(View contentView) {
+
+    }
+
+    @Override
+    public void unRegister(View contentView) {
 
     }
 }

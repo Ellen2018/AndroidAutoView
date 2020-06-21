@@ -61,6 +61,7 @@ public class AutoListView extends ViewGroup {
     }
 
     private void init(Context context, AttributeSet attrs) {
+        //支持滑动
        this.setClickable(true);
     }
 

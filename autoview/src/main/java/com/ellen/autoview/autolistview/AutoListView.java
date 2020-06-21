@@ -118,7 +118,6 @@ public class AutoListView extends ViewGroup {
             measureChild(viewList.get(i), childWidthMeasureSpec, MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
         }
         setMeasuredDimension(lastWidth, lastHeight);
-
     }
 
     @Override
